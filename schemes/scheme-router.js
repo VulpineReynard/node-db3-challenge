@@ -1,18 +1,19 @@
 const express = require('express');
 
-const Schemes = require('./scheme-model.js');
+const schemeHelper = require('./scheme-model.js');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  Schemes.find()
-  .then(schemes => {
-    res.json(schemes);
-  })
-  .catch(err => {
-    res.status(500).json({ message: 'Failed to get schemes' });
-  });
-});
+router.route("/")
+.get((req, res) => {
+  schemeHelper.find()
+    .then(schemes => {
+      res.status(200).json(schemes);
+    })
+    .catch(err => {
+      res.status(500).send({ message: "Something went wrong." })
+    })
+})
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
